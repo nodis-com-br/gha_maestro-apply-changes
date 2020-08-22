@@ -15,7 +15,11 @@ git log --format=%B --reverse ${LAST_PUSHED_COMMIT}.. | sed -r '/^\s*$/d'
 
 echo "########"
 
-git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*'
+git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '^(?:(?!\.github).)*\/.*$'
+
+echo "#######"
+
+git log --format=oneline
 
 # LAST_PUSHED_COMMIT=`git log -1 --skip=1 --invert-grep --grep=skip_ci --format=oneline | awk '{print $1}'`
 
@@ -79,3 +83,5 @@ git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*'
 #    rm -rf ${TEMP_DIR}
 #
 #fi
+
+exit 1
