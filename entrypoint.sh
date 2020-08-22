@@ -43,7 +43,9 @@ done
 IFS=${DEFAULT_IFS}
 
 
-[[ ${#UPGRADE[@]} -gt 0 ]] && maestro -u upgrade ${MAESTRO_OPTIONS} -f ${UPGRADE[@]}
+if [[ ${#UPGRADE[@]} -gt 0 ]]; then
+   maestro -u upgrade ${MAESTRO_OPTIONS} -f ${UPGRADE[@]}
+fi
 
 if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
 
@@ -54,7 +56,6 @@ if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
         if ! [[ -f ${F} ]]; then
             IFS=$'\n'
             for COMMIT in `git log -${COMMIT_ROLLBACK_COUNT} --skip=1 --format=oneline | awk '{print $1;}'`; do
-
                 if git show ${COMMIT}:${F} 2> /dev/null | install -D /dev/stdin ${TEMP_DIR}/${F}; then
                     UNINSTALL+=("${TEMP_DIR}/${F}")
                     break
