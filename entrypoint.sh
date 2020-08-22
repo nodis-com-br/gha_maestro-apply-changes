@@ -10,7 +10,7 @@ MANIFEST_EXT=yaml
 DEFAULT_IFS=${IFS}
 
 
-pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro
+pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro > /dev/null 2>&1
 
 IFS=$'\n'
 for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*'`;  do
@@ -43,7 +43,7 @@ done
 IFS=${DEFAULT_IFS}
 
 
-[[ ${#UPGRADE[@]} -gt 0 ]] && echo "maestro -u upgrade ${MAESTRO_OPTIONS} -f ${UPGRADE[@]}"
+[[ ${#UPGRADE[@]} -gt 0 ]] && maestro -u upgrade ${MAESTRO_OPTIONS} -f ${UPGRADE[@]}
 
 if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
 
@@ -67,7 +67,7 @@ if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
 
     done
 
-    echo "maestro -u uninstall ${MAESTRO_OPTIONS} -f ${UNINSTALL[@]}"
+    maestro -u uninstall ${MAESTRO_OPTIONS} -f ${UNINSTALL[@]}
 
     rm -rf ${TEMP_DIR}
 
