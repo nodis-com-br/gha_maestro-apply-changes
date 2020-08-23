@@ -5,7 +5,6 @@ UPGRADE=()
 PRE_UNINSTALL=()
 UNINSTALL=()
 
-COMMIT_ROLLBACK_COUNT=20
 TEMP_DIR=./temp
 MANIFEST_EXT=yaml
 DEFAULT_IFS=${IFS}
@@ -14,7 +13,7 @@ DEFAULT_IFS=${IFS}
 pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro > /dev/null 2>&1
 
 IFS=$'\n'
-for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '^(?:(?!\.github).)*\/.*$'`;  do
+for LINE in `git diff --name-status -C HEAD^ HEAD | egrep '.*\/.*$' | egrep -v '.github/workflows'`;  do
 
     echo ${LINE}
 
@@ -56,7 +55,7 @@ if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
 
         if ! [[ -f ${F} ]]; then
             IFS=$'\n'
-            for COMMIT in `git log -${COMMIT_ROLLBACK_COUNT} --skip=1 --format=oneline | awk '{print $1;}'`; do
+            for COMMIT in `git log --skip=1 --format=oneline | awk '{print $1;}'`; do
                 if git show ${COMMIT}:${F} 2> /dev/null | install -D /dev/stdin ${TEMP_DIR}/${F}; then
                     UNINSTALL+=("${TEMP_DIR}/${F}")
                     break
