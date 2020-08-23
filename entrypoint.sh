@@ -14,7 +14,7 @@ DEFAULT_IFS=${IFS}
 pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro > /dev/null 2>&1
 
 IFS=$'\n'
-for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*'`;  do
+for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '^(?:(?!\.github).)*\/.*$'`;  do
 
     echo ${LINE}
 
