@@ -10,7 +10,7 @@ MANIFEST_EXT=yaml
 DEFAULT_IFS=${IFS}
 
 
-pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro > /dev/null 2>&1
+pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro
 
 IFS=$'\n'
 for LINE in `git diff --name-status -C HEAD^ HEAD | egrep '.*\/.*$' | egrep -v '.github/workflows'`;  do
