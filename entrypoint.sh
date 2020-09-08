@@ -13,7 +13,7 @@ export CHARTMUSEUM_URI="https://${NODIS_CHART_REPOSITORY_USER}:${NODIS_CHART_REP
 pip install -i "https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple" maestro
 
 IFS=$'\n'
-for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*$' | egrep -v '.github/workflows'`;  do
+for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*$' | egrep -v '.github/workflows'`; do
 
     echo ${LINE}
 
@@ -43,7 +43,7 @@ done
 IFS=${DEFAULT_IFS}
 
 if [[ ${#UPGRADE[@]} -gt 0 ]]; then
-   maestro -u ${MAESTRO_OPTIONS} upgrade ${UPGRADE[@]}
+   maestro ${MAESTRO_OPTIONS} upgrade ${UPGRADE[@]}
 fi
 
 if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
@@ -67,7 +67,7 @@ if [[ ${#PRE_UNINSTALL[@]} -gt 0 ]]; then
 
     done
 
-    maestro -u ${MAESTRO_OPTIONS} uninstall ${UNINSTALL[@]}
+    maestro ${MAESTRO_OPTIONS} uninstall ${UNINSTALL[@]}
 
     rm -rf ${TEMP_DIR}
 

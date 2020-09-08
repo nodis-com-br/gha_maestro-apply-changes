@@ -1,4 +1,4 @@
-name: 'helm-publish-chart'
+name: 'maestro-apply-changes'
 description: ''
 runs:
   using: 'docker'
