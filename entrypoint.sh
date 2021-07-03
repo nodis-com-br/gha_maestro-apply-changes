@@ -15,6 +15,28 @@ export PIP_INDEX_URL="https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_
 
 pip install maestro
 
+if [[ -n ${OPENVPN_CONFIG} ]]; then
+    CONNECTED=false
+    COUNT=0
+    echo ${OPENVPN_CONFIG} > client.ovpn
+    openvpn --daemon client.ovpn
+    while [[ ${CONNECTED} == false ]]; do
+        if ping -c 1 10.211.245.1; then
+            CONNECTED=true
+        else
+            if [[ ${COUNT} -lt 10 ]]; then
+                COUNT+=1
+                echo "VPN Connected"
+                continue
+            else
+                echo "VPN connection timeout"
+                exit 1
+            fi
+        fi
+    done
+fi
+
+
 IFS=$'\n'
 for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.*$' | egrep -v '.github/workflows'`; do
 
