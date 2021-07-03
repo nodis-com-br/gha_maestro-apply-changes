@@ -1,5 +1,29 @@
 name: 'maestro-apply-changes'
 description: ''
+inputs:
+  kubernetes_config:
+    description: ''
+    required: true
+  pip_index_url:
+    description: ''
+    required: true
+  chartmuseum_uri:
+    description: ''
+    required: true
+  last_pushed_commit:
+    description: ''
+    required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - run: sudo apt-get install -y git
+      shell: bash
+    - run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      shell: bash
+    - run: ${{ github.action_path }}/script.sh
+      shell: bash
+      env:
+        KUBERNETES_CONFIG: ${{ inputs.kubernetes_config }}
+        PIP_INDEX_URL: ${{ inputs.pip_index_url }}
+        CHARTMUSEUM_URI: ${{ inputs.chartmuseum_uri }}
+        LAST_PUSHED_COMMIT: ${{ inputs.last_pushed_commit }}

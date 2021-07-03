@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -xe
+set -e
 
 UPGRADE=()
 PRE_UNINSTALL=()
@@ -9,9 +9,6 @@ TEMP_DIR=./temp
 MANIFEST_EXT=yaml
 MAESTRO_OPTIONS="-K environ -y"
 DEFAULT_IFS=${IFS}
-
-export CHARTMUSEUM_URI="https://${NODIS_CHART_REPOSITORY_USER}:${NODIS_CHART_REPOSITORY_PASSWORD}@${NODIS_CHART_REPOSITORY_HOST}"
-export PIP_INDEX_URL="https://${NODIS_PYPI_USER}:${NODIS_PYPI_PASSWORD}@${NODIS_PYPI_HOST}/simple"
 
 pip install maestro
 
