@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -xe
 
 UPGRADE=()
 PRE_UNINSTALL=()
