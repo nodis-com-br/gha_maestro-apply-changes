@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
+env | sort
+
 UPGRADE=()
 PRE_UNINSTALL=()
 UNINSTALL=()
@@ -34,8 +36,6 @@ for LINE in `git diff --name-status -C ${LAST_PUSHED_COMMIT} HEAD | egrep '.*\/.
 
 done
 IFS=${DEFAULT_IFS}
-
-helm repo add chartmuseum ${CHARTMUSEUM_URI}
 
 if [[ ${#UPGRADE[@]} -gt 0 ]]; then
    maestro ${MAESTRO_OPTIONS} upgrade ${UPGRADE[@]}
